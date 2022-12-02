@@ -1,34 +1,47 @@
 "use strict";
 let newGame = document.querySelector(".btn--new");
-let diceBtn = document.querySelector(".btn--roll");
+let diceRollBtn = document.querySelector(".btn--roll");
 let hold = document.querySelector(".btn--hold");
-let dice = document.querySelector(".dice");
+let diceElement = document.querySelector(".dice");
+let currentScore = 0;
+let activePlayer = 0;
 
+const scores = [0, 0];
 
+// score elements
+const score0Element = document.getElementById("score--0");
+const score1Element = document.getElementById("score--1");
 
-const diceObj = {
-  sides: 6,
-  roll: function () {
-    let randoNum = Math.floor(Math.random() * 6 + 1);
-    return randoNum;
-  },
-};
+const current0Element = document.getElementById("current--0");
+const current1Element = document.getElementById("current--1");
 
-const printDiceNum = function (num) {
-  if (diceObj.roll() === 1) {
-    dice.src = "dice-1.png";
-  } else if (diceObj.roll() === 2) {
-    dice.src = "dice-2.png";
-  } else if (diceObj.roll() === 3) {
-    dice.src = "dice-3.png";
-  } else if (diceObj.roll() === 4) {
-    dice.src = "dice-4.png";
-  } else if (diceObj.roll() === 5) {
-    dice.src = "dice-5.png";
-  } else dice.src = "dice-6.png";
-};
+// player sections
+const player1 = document.querySelector(".player--0");
+const player2 = document.querySelector(".player--1");
 
-diceBtn.addEventListener("click", () => {
-  let result = diceObj.roll();
-  printDiceNum(result);
+// Games start at 0
+score0Element.textContent = 0;
+score1Element.textContent = 0;
+// dice start game hidden
+diceElement.classList.add("hidden");
+
+diceRollBtn.addEventListener("click", () => {
+  //genetates random number from 1-6
+  const dice = Math.floor(Math.random() * 6 + 1);
+  //removes hidden class from dice
+  diceElement.classList.remove("hidden");
+  //interpolates the dice png with our random number
+  diceElement.src = `dice-${dice}.png`;
+
+  if (dice !== 1) {
+    currentScore += dice;
+    document.getElementById(`current--${activePlayer}`).textContent =
+      currentScore;
+  } else {
+    document.getElementById(`current--${activePlayer}`).textContent = 0;
+    currentScore = 0;
+    activePlayer = activePlayer === 0 ? 1 : 0;
+    player1.classList.toggle('player--active')
+    player2.classList.toggle('player--active')
+  }
 });
