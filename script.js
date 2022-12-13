@@ -14,32 +14,28 @@ let score1Element = document.getElementById("score--1");
 let current0Element = document.getElementById("current--0");
 let current1Element = document.getElementById("current--1");
 
-// declaring globals so they aren't scoped in beginGame, are now accecible in every function everywhere 
-let scores, currentScore, activePlayer, playing
+// declaring globals so they aren't scoped in beginGame, are now accecible in every function everywhere
+let scores, currentScore, activePlayer, playing;
 
-const beginGame = function (){
+const beginGame = function () {
+  scores = [0, 0];
+  currentScore = 0;
+  activePlayer = 0;
+  playing = true;
 
-     scores = [0, 0];
-     currentScore = 0;
-     activePlayer = 0;
-     playing = true;
+  score0Element.textContent = 0;
+  score1Element.textContent = 0;
+  current0Element.textContent = 0;
+  current1Element.textContent = 0;
 
-     score0Element.textContent = 0;
-     score1Element.textContent = 0;
-     current0Element.textContent = 0;
-     current1Element.textContent = 0;
-
-     // dice start game hidden
-     diceElement.classList.add("hidden");
-     player1.classList.remove('player--winner');
-     player2.classList.remove('player--winner');
-     player1.classList.add('player--active');
-     player2.classList.remove('player--active')
-
-}
-beginGame()
-
-
+  // dice start game hidden
+  diceElement.classList.add("hidden");
+  player1.classList.remove("player--winner");
+  player2.classList.remove("player--winner");
+  player1.classList.add("player--active");
+  player2.classList.remove("player--active");
+};
+beginGame();
 
 // Games start at 0
 score0Element.textContent = 0;
@@ -68,7 +64,10 @@ diceRollBtn.addEventListener("click", () => {
       document.getElementById(`current--${activePlayer}`).textContent =
         currentScore;
     } else {
-      //    switch to other player
+        // stops gameplay so dice button can't be spammed. 
+        if (activePlayer === 0) alert("Player 2's turn!") 
+        else if (activePlayer === 1) alert("Player 1's turn!")
+        //    switch to other player
       changePlayers();
     }
   }
@@ -98,7 +97,4 @@ hold.addEventListener("click", () => {
   }
 });
 
-newGame.addEventListener("click", beginGame)
-
-
-
+newGame.addEventListener("click", beginGame);
