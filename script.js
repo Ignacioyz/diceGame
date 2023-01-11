@@ -3,6 +3,7 @@ let newGame = document.querySelector(".btn--new");
 let diceRollBtn = document.querySelector(".btn--roll");
 let hold = document.querySelector(".btn--hold");
 let diceElement = document.querySelector(".dice");
+let winner = document.querySelectorAll("#winner");
 
 // player sections
 const player1 = document.querySelector(".player--0");
@@ -34,6 +35,12 @@ const beginGame = function () {
   player2.classList.remove("player--winner");
   player1.classList.add("player--active");
   player2.classList.remove("player--active");
+
+  // sets the winner element to hidden until game is won
+  // for(let nl of winner){
+  //   nl.classList.add('hidden');
+  // }
+
 };
 beginGame();
 
@@ -64,10 +71,10 @@ diceRollBtn.addEventListener("click", () => {
       document.getElementById(`current--${activePlayer}`).textContent =
         currentScore;
     } else {
-        // stops gameplay so dice button can't be spammed. 
-        if (activePlayer === 0) alert("Player 2's turn!") 
-        else if (activePlayer === 1) alert("Player 1's turn!")
-        //    switch to other player
+      // stops gameplay so dice button can't be spammed.
+      if (activePlayer === 0) alert("Player 2's turn!");
+      else if (activePlayer === 1) alert("Player 1's turn!");
+      //    switch to other player
       changePlayers();
     }
   }
@@ -79,15 +86,17 @@ hold.addEventListener("click", () => {
 
     document.getElementById(`score--${activePlayer}`).textContent =
       scores[activePlayer];
+      
 
-    if (scores[activePlayer] >= 100) {
+    if (scores[activePlayer] >= 10) {
+      
       playing = false;
       diceElement.classList.add("hidden");
+      
       document
         .querySelector(`.player--${activePlayer}`)
         .classList.add("player--winner");
-      //   hold.removeEventListener
-      //   diceRollBtn.removeEventListener
+       
       document
         .querySelector(`.player--${activePlayer}`)
         .classList.remove("player--active");
